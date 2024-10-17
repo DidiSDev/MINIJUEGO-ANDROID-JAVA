@@ -4,37 +4,116 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".RegistroActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="87dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="87dp"
+        android:background="#99000000"
+        app:layout_constraintBottom_toBottomOf="@+id/imagenFondo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imagenFondo" />
+
+    <ImageView
+        android:id="@+id/imagenFondo"
+        android:layout_width="0dp"
+        android:layout_height="731dp"
+        android:alpha="1"
+        android:scaleType="centerCrop"
+        android:src="@drawable/imagenregistro"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/cajaIdRegistro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:width="200dp"
         android:hint="Nombre de usuario"
-        android:layout_marginTop="100dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColorHint="#9D267D"
+        app:layout_constraintBottom_toTopOf="@+id/cajaPassRegistro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/cajaPassRegistro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:width="200dp"
         android:hint="Contraseña"
         android:inputType="textPassword"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/cajaIdRegistro"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:textColorHint="#9D267D"
+        app:layout_constraintBottom_toTopOf="@+id/finalizarRegistro"
+        app:layout_constraintStart_toStartOf="@+id/cajaIdRegistro"
+        app:layout_constraintTop_toBottomOf="@+id/cajaIdRegistro" />
 
     <Button
         android:id="@+id/finalizarRegistro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="294dp"
+        android:backgroundTint="@color/button_colors"
         android:text="Finalizar Registro"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@id/cajaPassRegistro"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cajaPassRegistro"
+        app:layout_constraintTop_toBottomOf="@+id/cajaPassRegistro" />
+
+    <Button
+        android:id="@+id/volver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="183dp"
+        android:backgroundTint="@color/button_colors"
+        android:text="Volver"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="376dp"
+        android:layout_height="236dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="126dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/avatar"
+        app:layout_constraintBottom_toTopOf="@+id/cajaIdRegistro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="19dp"
+        android:background="#1BF3BB21"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

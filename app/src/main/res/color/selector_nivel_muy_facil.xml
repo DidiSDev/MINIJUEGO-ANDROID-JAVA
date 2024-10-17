@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- AL PRESIONAR BOTÓN -->
+    <item android:state_pressed="true" android:color="#BA75F434" />
+    <!-- ESTADO NORMAL -->
+    <item android:color="#f3e108" />
+</selector>

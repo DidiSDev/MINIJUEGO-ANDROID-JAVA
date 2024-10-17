@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,13 +5,29 @@
     android:layout_height="match_parent"
     tools:context=".SeleccionNivelActivity">
 
+    <ImageView
+        android:id="@+id/imagenFondo"
+        android:layout_width="585dp"
+        android:layout_height="1213dp"
+        android:alpha="1"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondodificultad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.377" />
+
     <TextView
         android:id="@+id/nombreUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Bienvenid@, Jugador"
-        android:textSize="20sp"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,54 +37,69 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textColor="#FFFFFF"
         android:text="Puntuación: Sin puntuación"
-        android:textSize="18sp"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nombreUsuario" />
 
     <Button
         android:id="@+id/nivelFacil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_marginTop="50dp"
         android:text="Fácil"
+        android:alpha="0.8"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/selector_nivel_facil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/puntuacionUsuario" />
 
     <Button
         android:id="@+id/nivelMuyFacil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:text="Muy Fácil"
+        android:alpha="0.8"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/selector_nivel_muy_facil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nivelFacil" />
 
     <Button
         android:id="@+id/nivelDificil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_marginTop="20dp"
         android:text="Difícil"
+        android:textSize="20sp"
+        android:alpha="0.8"
+        android:textColor="@color/selector_texto_dificil"
+        android:backgroundTint="@color/selector_nivel_dificil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nivelMuyFacil" />
 
     <Button
         android:id="@+id/salir"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="173dp"
-        android:layout_marginTop="592dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="91dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
         android:text="Cerrar el juego"
+        android:textSize="20sp"
+        android:alpha="0.8"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/selector_boton_salir"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/nivelDificil" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

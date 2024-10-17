@@ -3,7 +3,9 @@ package com.example.juegoadivinarobligatorio1;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.os.Looper;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,16 +24,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.button.MaterialButton;
+
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //LO PRIMERISIMO LOS ATRIBUTOS
-    EditText cajaNombre, cajaPass;
-    Button login, registrar;
-    CheckBox recordar;
-
+    private EditText cajaNombre, cajaPass;
+    private Button login, registrar;
+    private CheckBox recordar;
+    private ClaseAudioFondo claseAudioFondo;
+    private Drawable[] buttonShapes;
+    private Handler shapeChangeHandler;
+    private Random random;
     //INSTANCIAR SHAREDPREFERENCES
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
 
     //CLAVES QUE NECESITARÁ EL POROGRAMA  GUARDAR EN EL SP, PARA LOGIN, NOMBRE, CONTRASEÑA Y RECORDAR
     //MÁS TARDE A PARTIR DE SELECCIÓN NIVEL AÑADIREMOS keyPuntuacion.
@@ -44,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        //INICIO MUSICA ALEATORIA DE FONDO
+        claseAudioFondo = new ClaseAudioFondo();
+        claseAudioFondo.iniciarAudioAleatorio(this);
 
         //IMAGENES
         ImageView imagen = findViewById(R.id.imagen);
@@ -64,12 +81,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sp=getSharedPreferences(keyNombre, Context.MODE_PRIVATE);
         editor=sp.edit();
         checkRememberedLogin();
+
+
+
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
+
+
 
     @Override
     public void onClick(View v)
@@ -105,6 +129,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             recordar.setChecked(false); //DESMARCAMOS SI NO
         }
     }
+
+    public ClaseAudioFondo getClaseAudioFondo() {
+        return claseAudioFondo;
+    }
+
+    public void setClaseAudioFondo(ClaseAudioFondo claseAudioFondo) {
+        this.claseAudioFondo = claseAudioFondo;
+    }
+
     private void realizarLogin()
     {
         String nombre = cajaNombre.getText().toString();
@@ -177,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "¡Error de credenciales!", Toast.LENGTH_SHORT).show();
             }
         }
+
 
     }
 }

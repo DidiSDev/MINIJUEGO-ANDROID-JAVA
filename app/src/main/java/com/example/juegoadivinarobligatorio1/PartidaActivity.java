@@ -4,21 +4,30 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.text.Normalizer;
 import java.util.Random;
 
 public class PartidaActivity extends AppCompatActivity {
+
 
     //TODOS LOS ATRIBUTOS Q NECESITAMOS, EL JUGADOR TRAIDO, EL NIVEL TRAIDO Y LA ULTIMA PUNTUACION
     //GUARDADA EN EL SHAREDPREF, CREO Q NO NECESITARÉ MÁS DE MOMENTO
@@ -26,6 +35,8 @@ public class PartidaActivity extends AppCompatActivity {
     EditText respuestaJugador; //EL EDIT DONDE RESPONDERÁ EL JUGADOR (MAS ADELANTE LO PASAREMOS TOLOWERCASE X SI ACASO)
     Button jugarPartida, volver, salir;
     ImageView imagenJuego; //DONDE IRÁ LA IMAGEN RECOGIDA ALEATORIAMENTE DE LOS ARRAY
+
+
 
     SharedPreferences sp;
     SharedPreferences.Editor editor;
@@ -106,6 +117,7 @@ public class PartidaActivity extends AppCompatActivity {
     private int sonidoActual;
     private String respuestaCorrecta;
     private int puntuacionActual = 0;
+    private int puntuacionAnterior=0;
 
     private MediaPlayer mediaPlayer;
 
@@ -123,6 +135,7 @@ public class PartidaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partida); //DEBAJO LAS ID'S DIEGO QUE SINO NO FUNCIOINA
+
 
         nombreJugador = findViewById(R.id.nombreJugador);
         nivelSeleccionado = findViewById(R.id.nivelSeleccionado);
@@ -149,6 +162,10 @@ public class PartidaActivity extends AppCompatActivity {
 
         //MOSTRAMOS EN EL TEXTVIEW
         ultimaPuntuacion.setText("Última Puntuación: " + puntuacionActual);
+
+        //AHORA ESTABLEZCO LA PUNTUACIÓN ACTUAL A 0 Y USO OTRA VARIABLE QUE COMPARE AL FINAL
+        puntuacionAnterior=puntuacionActual;
+        puntuacionActual=0;
 
         //LISTENER PARA EL BOTÓN "Jugar Partida"
         jugarPartida.setOnClickListener(new View.OnClickListener()
@@ -189,7 +206,10 @@ public class PartidaActivity extends AppCompatActivity {
 
         //MÉTODO Q ELIGE AUTOMÁTICAMENTE IMAGEN O SONIDO
         seleccionarElementoSegunNivel();
+
     }
+
+
     //LE METO AQUÍ DEBAJO Q ES LARGO
     private void seleccionarElementoSegunNivel()
     {
@@ -218,12 +238,14 @@ public class PartidaActivity extends AppCompatActivity {
                 indice = random.nextInt(imagenesMuyFacil.length);
                 imagenActual = imagenesMuyFacil[indice];
                 respuestaCorrecta = respuestasImagenesMuyFacil[indice];
-            } else if (nivel.equals("Facil"))
+            }
+            else if (nivel.equals("Facil"))
             {
                 indice = random.nextInt(imagenesFacil.length);
                 imagenActual = imagenesFacil[indice];
                 respuestaCorrecta = respuestasImagenesFacil[indice];
-            } else if (nivel.equals("Dificil"))
+            }
+            else if (nivel.equals("Dificil"))
             {
                 indice = random.nextInt(imagenesDificil.length);
                 imagenActual = imagenesDificil[indice];
@@ -306,7 +328,7 @@ public class PartidaActivity extends AppCompatActivity {
             editor.apply();
 
             //SE LA MOSTRAMOS
-            ultimaPuntuacion.setText("Última Puntuación: " + puntuacionActual);
+            ultimaPuntuacion.setText("Puntuación actual: " + puntuacionActual);
         } else {
             Toast.makeText(this, "Respuesta incorrecta", Toast.LENGTH_SHORT).show();
         }
@@ -323,14 +345,24 @@ public class PartidaActivity extends AppCompatActivity {
             seleccionarElementoSegunNivel();
         }
     }
-    private void mostrarPuntuacionFinal() {
+    private void mostrarPuntuacionFinal()
+    {
         // GUARDAMOS LA PUNTUACIÓN EN SP, QUE HABRÑÁ QUE MOSTRAR EN EL FUTURO
         editor = sp.edit();
         editor.putInt(getKeyPuntuacion(), puntuacionActual);
         editor.apply(); //SIN ESTO A VECES NO SE GUARDA, ACUÉRDATE SIEMPRE DIEGO
 
+        String mensajeFinal;
         // CREEAMOS UN MENSAJE QUE QUEREMOS MOSTRAR AL USUARIO
-        String mensajeFinal = "Tus resultados son:\n" + "Respuestas correctas: " + numCorrectas + " de " + totalPreguntas + "\n" + "Puntuación final: " + puntuacionActual;
+        if (puntuacionActual>puntuacionAnterior)
+        {
+            mensajeFinal = "ANTERIOR PUNTUACIÓN: "+puntuacionAnterior+"\n\n¡ENHORABUENA! Has superado tu anterior marca con los siguientes resultados:\n" + "Respuestas correctas: " + numCorrectas + " de " + totalPreguntas + "\n\n" + "Puntuación final: " + puntuacionActual;
+        }
+        else
+        {
+            mensajeFinal = "ANTERIOR PUNTUACIÓN: "+puntuacionAnterior+"\n\nTus resultados no han superado tu marca anterior :(\n" + "Respuestas correctas: " + numCorrectas + " de " + totalPreguntas + "\n\n" + "Puntuación final: " + puntuacionActual;
+
+        }
 
         // COMO QUERIA ALGO PARECIDO A JOPTIONPANE DE SWING VOY A USAR UN ALERTDIALOG,
         // UNA VENTANA QUE TENGA QUE CERRAR EL USUARIO EN LUGAR DE UN MENSAJE TEMPORAL QUE SE QUITA SÓLO
@@ -350,21 +382,32 @@ public class PartidaActivity extends AppCompatActivity {
                 }).show(); //-> EL .show(); ES OBLIGATORIO AL FINAL DE LOS ALERTDIALOG SINO NO SE MUESTRA NADA Y SÍ EJECUTA EL PROCESO QUEMANDO RECURSOS
     }
 
-    // ESTE ES EL MÉTODO QUE NORMALIZA TEXTO, ELIMINA ESPACIOS O CARACTERES ESPECIALES Y SI INTRODUCE ACENTOS O NO,
-    // ESTÁ CONTROLADO PARA DAR LA RESPUESTA CORRECTA AUNQUE EL ARRAY NO ALMACENE ACENTOS.
+    // ESTE ES EL MÉTODO QUE NORMALIZA TEXTO, CON LOWERCASE Y ELIMINA ESPACIOS Y ACENTOS
     private String normalizarTexto(String texto)
     {
         texto = texto.toLowerCase();
-        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
-        texto = texto.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
-        texto = texto.replaceAll("[^a-z0-9 ]", ""); //ELIMINA CARÁCTERES ESPECIALES
-
+        //LOS ACENTOS LOS ELIMINO MANUALMENTE
+        eliminarAcentosManualmente(texto);
         //ME GUSTARÍA CONTROLAR TAMBIÉN QUE POR EJEMPLO, SI RESPUESTA ES "ley de newton"
         // Y EL USUARIO RESOPNDE "ley newton" TAMBIÉN FUESE CORRECTA
         //ASÍ QUE PARA ELLO VOY A CONTROLARLO MANUALMENTE CON UN MÉTODO QUE ME ELIMINE ARTÍCULOS COMO "de, la, el"...
         texto = eliminarPalabrasIrrelevantes(texto); //ESTE LO CREO MANUALMENTE PARA ELIMINAR ARTÍCULOS INNECESARIOS
         return texto.trim();//ELIMINA ESPACIOS
+    }
+    private String eliminarAcentosManualmente(String texto)
+    {
+        texto = texto.replace("á", "a");
+        texto = texto.replace("é", "e");
+        texto = texto.replace("í", "i");
+        texto = texto.replace("ó", "o");
+        texto = texto.replace("ú", "u");
+        texto = texto.replace("Á", "a");
+        texto = texto.replace("É", "e");
+        texto = texto.replace("Í", "i");
+        texto = texto.replace("Ó", "o");
+        texto = texto.replace("Ú", "u");
 
+        return texto;
     }
 
     private void salirPartida()

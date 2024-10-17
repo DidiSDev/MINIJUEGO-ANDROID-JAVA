@@ -5,8 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class RegistroActivity extends AppCompatActivity {
 
     EditText cajaNombre, cajaPass;
-    Button finalizarRegistro;
+    Button finalizarRegistro, volver;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
 
@@ -28,10 +31,13 @@ public class RegistroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
+
+
         // COGEMOS IDS
         cajaNombre = findViewById(R.id.cajaIdRegistro);
         cajaPass = findViewById(R.id.cajaPassRegistro);
         finalizarRegistro = findViewById(R.id.finalizarRegistro);
+        volver=findViewById(R.id.volver);
 
         // INICIALIZAMOS SP
         sp = getSharedPreferences(keyNombre, Context.MODE_PRIVATE);
@@ -39,16 +45,27 @@ public class RegistroActivity extends AppCompatActivity {
         // CREANDO O ACCEDIENDO SOLO PUEDE SER ACCEDIDO POR ESTA APLICACIÓN
         editor = sp.edit(); //PERMITE EDITAR EL SP
 
-        // LISTENER AL BOTON
-        finalizarRegistro.setOnClickListener(new View.OnClickListener() {
+        // LISTENER ALOS BOTONES
+        finalizarRegistro.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 realizarRegistro();
             }
         });
+
+        volver.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
     }
 
-    private void realizarRegistro() {
+
+    private void realizarRegistro()
+    {
         String nombre = cajaNombre.getText().toString();
         String password = cajaPass.getText().toString();
 
@@ -68,4 +85,6 @@ public class RegistroActivity extends AppCompatActivity {
         // VOLVEMOS AL LOGIN
         finish();
     }
+
+
 }

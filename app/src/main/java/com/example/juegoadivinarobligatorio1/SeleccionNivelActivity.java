@@ -12,11 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SeleccionNivelActivity extends AppCompatActivity {
     //ATRIBUTOS
-    TextView nombreUsuario, puntuacionUsuario;
-    Button nivelFacil, nivelMuyFacil, nivelDificil, salir;
+
+
+    private TextView nombreUsuario, puntuacionUsuario;
+    private Button nivelFacil, nivelMuyFacil, nivelDificil, salir;
     //ATR SHP
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
 
     //KEYS SHP
     private static final String keyNombre = "user_prefs";
@@ -142,6 +144,7 @@ public class SeleccionNivelActivity extends AppCompatActivity {
         //LO ENVÍO POR SI ACASO PROVISIONALMENTE
         Intent intent = new Intent(SeleccionNivelActivity.this, PartidaActivity.class);
         intent.putExtra("nombreUsuario", nombre);
+
         intent.putExtra("nivel", nivel);
         startActivity(intent); //INICIAMOS PARTIDA, POR FIN
     }
